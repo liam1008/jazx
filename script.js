@@ -10,15 +10,6 @@ document.querySelector('.reload-buttonaa').addEventListener('animationend', func
 document.addEventListener("DOMContentLoaded", function() {
     console.log("DEBUG: Script is running...");
 
-    // List of official Helios URLs
-    const officialUrls = [
-        "https://helios-browser.vercel.app/",
-        "https://helios-blue.vercel.app/",
-        "https://helios-browser.rf.gd",
-        "https://helios-browser.w3spaces.com/",
-        "https://helios-browser.pages.dev/",
-        "https://helios-browser.ct.ws"
-    ];
 
     function normalizeUrl(url) {
         return url.split("#")[0].split("?")[0]; // Remove hash and query params
@@ -58,25 +49,6 @@ document.addEventListener("DOMContentLoaded", function() {
                 console.error("ERROR: Verification elements not found in the DOM.");
                 return;
             }
-
-            // Get the current URL
-            const pageUrl = normalizeUrl(window.location.href);
-            console.log("DEBUG: Current Page URL:", pageUrl);
-
-            // Set the verification message
-            if (officialUrls.includes(pageUrl)) {
-                console.log("DEBUG: Official Helios URL detected.");
-                iconElement.classList.add("fa", "fa-circle-check", "sitechecker-secure");
-                messageElement.innerHTML = `This link <b>(${pageUrl})</b> is a secure, official Helios Browser link.`;
-            } else {
-                console.log("DEBUG: UNOFFICIAL URL detected!");
-                iconElement.classList.add("fa", "fa-triangle-exclamation", "sitechecker-warning");
-                messageElement.innerHTML = `This link <b>(${pageUrl})</b> is not an official Helios Browser link. Use at your own risk, or find a list of official Helios Browser links <a href="https://github.com/dinguschan-owo/Helios/blob/main/README.md" target="_blank" class="sitechecker-link">here</a>.`;
-            }
-
-            console.log("DEBUG: Text updated inside Sitechecker box.");
-        }, 200); 
-    }
 
 function fadeOutSitechecker() {
         setTimeout(() => {
@@ -239,7 +211,7 @@ function createCenterSitechecker() {
             return;
         }
 
-        addLogEntry(`[Helios Log] Helios started successfully`, true);
+        addLogEntry(`[jazx Log] jazx started successfully`, true);
     }
 
     let retryCount = 0;
@@ -1983,36 +1955,6 @@ function hideSpinner(tabElement) {
         spinner.remove();
     }
 }
-
-function downloadPage() {
-    // Attempt to fetch from GitHub first
-    const url = "https://raw.githubusercontent.com/dinguschan-owo/Helios/refs/heads/main/Offline-File/Helios-Offline.html";
-    fetch(url)
-        .then(response => response.blob()).then(blob => {
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = "Helios-Offline.html";
-            a.click();
-        })
-        .catch(error => {
-            console.error("Error downloading from GitHub:", error);
-            // If GitHub fetch fails, attempt to fetch from the local server
-            fetchLocalFile();
-        });
-
-    function fetchLocalFile() {
-        fetch('/Offline-File/Helios-Offline.html')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Failed to fetch from local server');
-                }
-                return response.text();
-            })
-            .then(data => {
-                downloadFile(data);
-            })
-            .catch(error => console.error('Error with local file:', error));
-    }
 
     function downloadFile(data) {
         const blob = new Blob([data], {
